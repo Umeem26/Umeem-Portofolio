@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Palet Warna */
+  --color-arctic: #FAFAFA;
+  --color-pearl: #F0F0F3;
+  --color-glass: rgba(255, 255, 255, 0.4);
+  --color-glassBorder: rgba(255, 255, 255, 0.5);
+  
+  /* Gradien & Background */
+  --background-image-glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%);
+  --background-image-holographic: linear-gradient(109.6deg, rgba(223,234,247,1) 11.2%, rgba(244,248,252,1) 91.1%);
+  
+  /* Efek Kaca */
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --blur-glass: 12px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    /* Menggunakan variabel warna langsung agar Turbopack Next.js tidak bingung */
+    background-color: var(--color-arctic);
+    color: #1e293b; /* setara dengan slate-800 */
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    
+    /* Efek Grid Halus di Background untuk kesan teknikal */
+    background-image: 
+      linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Kustomisasi warna saat kursor memblok teks */
+  ::selection {
+    background-color: #e2e8f0;
+    color: #0f172a;
+  }
+}
+
+/* Sihir Animasi Transisi Dark Mode Mulus (700ms) */
+html, body, section, div, h1, h2, h3, h4, p, span, a, button {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 700ms;
+}
+
+/* Mematikan transisi untuk elemen framer-motion agar animasinya tidak bertabrakan */
+.framer-motion-element {
+  transition-property: none !important;
+}
