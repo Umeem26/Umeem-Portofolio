@@ -17,28 +17,32 @@ const projectData = [
     desc: "Aplikasi mobile offline-first untuk digitalisasi manajemen keuangan peternak unggas lokal. Berhasil menekan efisiensi biaya pakan hingga 30-40%.",
     tech: ["Flutter", "SQLite", "Offline-First"],
     icon: <Sparkles className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+    github: "https://github.com/Umeem26/Apk-Mobile-Manajemen-Finance-Assets"
   },
   {
     title: "DigiCare Platform",
     desc: "Platform digital rekayasa kesehatan terpadu yang dirancang untuk mempercepat aksesibilitas monitoring dan efisiensi manajemen perawatan pengguna.",
     tech: ["Mobile Dev", "Database Management"],
     icon: <Smartphone className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop",
+    github: "https://github.com/Umeem26"
   },
   {
     title: "Mebuca VanBooth",
     desc: "Inovasi bisnis photobooth keliling berbasis van yang mengintegrasikan teknologi Computer Vision untuk automasi pencetakan foto kreatif.",
     tech: ["Computer Vision", "System Design"],
     icon: <Camera className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1520390138845-fd2d229dd553?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1520390138845-fd2d229dd553?q=80&w=800&auto=format&fit=crop",
+    github: "https://github.com/Umeem26"
   },
   {
     title: "CompoundMe",
     desc: "Aplikasi personal finance mandiri yang dirancang untuk pelacakan finansial dan kebiasaan yang terstruktur, dengan fokus pada arsitektur bersih.",
     tech: ["Mobile Dev", "UI/UX", "Finance Tech"],
     icon: <HeartPulse className="w-5 h-5" />,
-    image: "https://images.unsplash.com/photo-1616077168712-fc6c788db4af?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1616077168712-fc6c788db4af?q=80&w=800&auto=format&fit=crop",
+    github: "https://github.com/Umeem26/Compound_Me"
   }
 ];
 
@@ -97,12 +101,12 @@ export default function Projects() {
                     </div>
 
                     <div className="flex items-center gap-6 mt-auto border-t border-slate-200 dark:border-slate-700 pt-4 transition-colors">
-                      <a href="#" className="flex items-center gap-1.5 text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                         <GithubIcon className="w-4 h-4" /> Repository
                       </a>
-                      <a href="#" className="flex items-center gap-1.5 text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+                      <span className="flex items-center gap-1.5 text-sm font-bold text-slate-400 dark:text-slate-500 cursor-not-allowed select-none">
                         <ExternalLink className="w-4 h-4" /> Live Demo
-                      </a>
+                      </span>
                     </div>
                   </div>
                 </div>

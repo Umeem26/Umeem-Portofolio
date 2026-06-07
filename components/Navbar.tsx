@@ -24,12 +24,17 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   // Fungsi navigasi smooth scroll yang presisi
@@ -67,7 +72,7 @@ export default function Navbar() {
               <Terminal className="w-4 h-4 md:w-5 md:h-5" />
             </div>
             <span className="font-extrabold text-lg md:text-xl tracking-tight text-slate-900 dark:text-white transition-colors">
-              Umem's<span className="text-blue-600"> Side</span>
+              Umem&apos;s<span className="text-blue-600"> Side</span>
             </span>
           </a>
 

@@ -60,7 +60,7 @@ export default function Contact() {
           className="mb-16 text-center"
         >
           <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4">
-            Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Compile</span> Something.
+            Let&apos;s <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Compile</span> Something.
           </h2>
           <p className="text-lg text-slate-600 max-w-xl mx-auto">
             Tertarik untuk berkolaborasi dalam project AI, Web App, atau sekadar berdiskusi tentang arsitektur kode?
@@ -76,15 +76,15 @@ export default function Contact() {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 blur-[80px] opacity-20 -z-10 rounded-full animate-pulse"></div>
 
           {/* Social Media Orbits (Bola Kaca Melayang) */}
-          <motion.a href="#" whileHover={{ scale: 1.2, rotate: 10 }} animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-12 -top-12 md:-left-20 md:-top-10 w-16 h-16 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-glass flex items-center justify-center text-slate-700 hover:text-blue-600 hover:shadow-[0_0_30px_rgba(37,99,235,0.4)] z-20">
+          <motion.a href="https://www.linkedin.com/in/hisyam-khaeru-umam" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, rotate: 10 }} animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-12 -top-12 md:-left-20 md:-top-10 w-16 h-16 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-glass flex items-center justify-center text-slate-700 hover:text-blue-600 hover:shadow-[0_0_30px_rgba(37,99,235,0.4)] z-20">
             <LinkedinIcon className="w-7 h-7" />
           </motion.a>
 
-          <motion.a href="#" whileHover={{ scale: 1.2, rotate: -10 }} animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute -right-8 -top-8 md:-right-16 md:-top-16 w-20 h-20 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-glass flex items-center justify-center text-slate-700 hover:text-slate-900 hover:shadow-[0_0_30px_rgba(15,23,42,0.4)] z-20">
+          <motion.a href="https://github.com/Umeem26" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, rotate: -10 }} animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute -right-8 -top-8 md:-right-16 md:-top-16 w-20 h-20 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-glass flex items-center justify-center text-slate-700 hover:text-slate-900 hover:shadow-[0_0_30px_rgba(15,23,42,0.4)] z-20">
             <GithubIcon className="w-9 h-9" />
           </motion.a>
 
-          <motion.a href="#" whileHover={{ scale: 1.2, rotate: 15 }} animate={{ y: [0, -20, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute -left-6 -bottom-10 md:-left-12 md:-bottom-12 w-14 h-14 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-glass flex items-center justify-center text-slate-700 hover:text-emerald-500 hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] z-20">
+          <motion.a href="mailto:hisyam.khaeru.umam@gmail.com" whileHover={{ scale: 1.2, rotate: 15 }} animate={{ y: [0, -20, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute -left-6 -bottom-10 md:-left-12 md:-bottom-12 w-14 h-14 rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-glass flex items-center justify-center text-slate-700 hover:text-emerald-500 hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] z-20">
             <Mail className="w-6 h-6" />
           </motion.a>
 

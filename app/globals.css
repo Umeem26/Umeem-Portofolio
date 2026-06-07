@@ -3,18 +3,25 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Palet Warna */
-  --color-arctic: #FAFAFA;
-  --color-pearl: #F0F0F3;
-  --color-glass: rgba(255, 255, 255, 0.4);
-  --color-glassBorder: rgba(255, 255, 255, 0.5);
+  /* Palet Warna Premium */
+  --color-obsidian-950: #050b14;
+  --color-obsidian-900: #0a0a0a;
+  --color-alabaster: #f3f3f1;
+  --color-gold: #d4af37;
+  --color-emerald-deep: #065f46;
+  
+  --font-serif: var(--font-playfair), serif;
+  --font-mono: var(--font-mono), monospace;
+  
+  --color-glass: rgba(10, 10, 10, 0.45);
+  --color-glassBorder: rgba(255, 255, 255, 0.08);
   
   /* Gradien & Background */
-  --background-image-glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%);
-  --background-image-holographic: linear-gradient(109.6deg, rgba(223,234,247,1) 11.2%, rgba(244,248,252,1) 91.1%);
+  --background-image-glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
+  --background-image-holographic: linear-gradient(109.6deg, #050b14 11.2%, #0a0a0a 91.1%);
   
   /* Efek Kaca */
-  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   --blur-glass: 12px;
 }
 
@@ -24,23 +31,22 @@
   }
   
   body {
-    /* Menggunakan variabel warna langsung agar Turbopack Next.js tidak bingung */
-    background-color: var(--color-arctic);
-    color: #1e293b; /* setara dengan slate-800 */
+    background-color: var(--color-obsidian-950);
+    color: var(--color-alabaster);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
     
     /* Efek Grid Halus di Background untuk kesan teknikal */
     background-image: 
-      linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+      linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
   /* Kustomisasi warna saat kursor memblok teks */
   ::selection {
-    background-color: #e2e8f0;
-    color: #0f172a;
+    background-color: var(--color-gold);
+    color: var(--color-obsidian-950);
   }
 }
 
@@ -54,4 +60,25 @@ html, body, section, div, h1, h2, h3, h4, p, span, a, button {
 /* Mematikan transisi untuk elemen framer-motion agar animasinya tidak bertabrakan */
 .framer-motion-element {
   transition-property: none !important;
+}
+
+/* Lenis Smooth Scroll CSS Helper */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis-scrolling iframe {
+  pointer-events: none;
 }

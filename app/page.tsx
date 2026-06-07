@@ -1,125 +1,241 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "../components/Navbar";
 import Projects from "../components/Projects";
 import Experience from "../components/Experience";
 import Contact from "../components/Contact";
 import GlobalBackground from "../components/GlobalBackground";
-import AboutMe from "../components/AboutMe";
+import AboutMeDynamic from "../components/AboutMeDynamic";
 import TechStack from "../components/TechStack";
 import Achievements from "../components/Achievements";
 import Gallery from "../components/Gallery";
-import { motion, Variants, AnimatePresence } from "framer-motion";
+import Preloader from "../components/Preloader";
+import InteractiveBackground from "../components/InteractiveBackground";
 import { Download, ArrowRight, Code2 } from "lucide-react";
-import { useState, useEffect } from "react";
-
-const Canvas3D = dynamic(() => import("../components/Canvas3D"), { ssr: false });
-
-const roles = [
-  "Software Engineer.",
-  "Tech Enthusiast.",
-  "AI Explorer.",
-  "Problem Solver."
-];
 
 export default function Home() {
-  const [currentRole, setCurrentRole] = useState(0);
+  const [isLoaderFinished, setIsLoaderFinished] = useState(false);
+  
+  const pageWrapperRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLDivElement>(null);
+  const heroContentRef = useRef<HTMLDivElement>(null);
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
+  
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    // Register GSAP ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.2, delayChildren: 0.3 } }
-  };
+    if (!isLoaderFinished) return;
 
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, x: -30 },
-    show: { opacity: 1, x: 0, transition: { type: "spring", duration: 1.2 } }
-  };
+    // Trigger hero text entrance animations sequentially
+    const tl = gsap.timeline();
+
+    // Reset initial state to prevent flashes
+    gsap.set([badgeRef.current, titleRef.current, subtitleRef.current, descRef.current, ctaRef.current, scrollIndicatorRef.current], {
+      opacity: 0,
+      y: 50
+    });
+
+    // 1. Badge reveal
+    tl.to(badgeRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out"
+    });
+
+    // 2. Title slide up & fade-in
+    tl.to(titleRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: "power4.out"
+    }, "-=0.5");
+
+    // 3. Subtitle slide up
+    tl.to(subtitleRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out"
+    }, "-=0.8");
+
+    // 4. Description fade-in
+    tl.to(descRef.current, {
+      opacity: 0.75,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out"
+    }, "-=0.6");
+
+    // 5. CTA buttons fade-in
+    tl.to(ctaRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out"
+    }, "-=0.5");
+
+    // 6. Scroll Indicator fade-in
+    tl.to(scrollIndicatorRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out"
+    }, "-=0.4");
+
+    // 7. Morphing scroll transition from Hero to About section
+    const heroScrollTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroSectionRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        invalidateOnRefresh: true,
+      }
+    });
+
+    // Zoom-in, fade-out, and shift Y position of Hero Content
+    heroScrollTl.to(heroContentRef.current, {
+      scale: 3.5,
+      opacity: 0,
+      yPercent: -40,
+      ease: "none"
+    }, 0);
+
+    // Dim and blur the 3D particle canvas background as we scroll out of Hero
+    heroScrollTl.to(canvasContainerRef.current, {
+      opacity: 0.12,
+      filter: "blur(12px)",
+      ease: "none"
+    }, 0);
+
+    // 8. Elegant background color shift as user scrolls deep into the About section
+    gsap.to(pageWrapperRef.current, {
+      backgroundColor: "#03170e", // Premium very dark emerald
+      scrollTrigger: {
+        trigger: "#about",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      }
+    });
+
+  }, [isLoaderFinished]);
 
   const scrollToProjects = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-  <main className="relative overflow-x-hidden">
-    <GlobalBackground />
-    <Navbar />
+    <main ref={pageWrapperRef} className="relative overflow-x-hidden min-h-screen bg-[#050b14] transition-colors duration-500">
+      {/* Cinematic pre-loader overlay */}
+      <Preloader onComplete={() => setIsLoaderFinished(true)} />
 
-      <section className="relative min-h-screen w-full overflow-hidden z-10">
-        <div className="absolute inset-0 top-[15%] lg:top-0 lg:left-auto lg:right-0 w-full lg:w-[55%] min-h-screen h-full z-0">
-          <Canvas3D /> 
+      {/* Background aesthetics */}
+      <GlobalBackground />
+      <Navbar />
+
+      {/* Hero Section */}
+      <section ref={heroSectionRef} className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
+        {/* Interactive 3D Canvas Background Container */}
+        <div ref={canvasContainerRef} className="absolute inset-0 w-full h-full z-0">
+          <InteractiveBackground />
         </div>
 
-        <div className="absolute top-1/2 left-0 md:left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-blue-200 to-indigo-200 dark:from-blue-900/40 dark:to-emerald-900/20 rounded-full blur-[120px] opacity-40 -z-10 animate-pulse pointer-events-none transition-colors duration-700"></div>
+        {/* Ambient Dark Overlay to enhance text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#050b14]/40 to-[#050b14] pointer-events-none z-5" />
 
-        <div className="container mx-auto relative flex flex-col justify-center min-h-screen px-6 pt-24 lg:pt-20 z-10 pointer-events-none">
-          <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col items-start text-left max-w-2xl pointer-events-none mt-10 lg:mt-0">
-            
-            {/* Mengganti tag Mapres dengan tag yang lebih low-profile */}
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 text-xs font-bold tracking-widest uppercase border rounded-full text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-900/50 bg-blue-50/80 dark:bg-blue-900/20 backdrop-blur-md shadow-sm transition-colors">
-              <Code2 className="w-4 h-4" /> Available for Collaboration
-            </motion.div>
+        {/* Hero Content Panel */}
+        <div ref={heroContentRef} className="container mx-auto relative flex flex-col justify-center items-center text-center min-h-screen px-6 pt-24 lg:pt-20 z-10 pointer-events-none">
+          {/* Badge Tag */}
+          <div ref={badgeRef} className="mb-6 opacity-0 select-none">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 text-[10px] font-mono tracking-widest uppercase border rounded-full text-[#D4AF37] border-[#D4AF37]/35 bg-[#065F46]/10 backdrop-blur-md">
+              <Code2 className="w-3.5 h-3.5" /> Available for Collaboration
+            </span>
+          </div>
 
-            {/* STRUKTUR TEKS LURUS SEMPURNA */}
-            <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1] transition-colors">
-              Crafting Digital <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-emerald-500 dark:from-blue-400 dark:to-emerald-400">Excellence </span>
-              <br className="hidden md:block" />
-              
-              {/* Flexbox wrapper agar 'as a' dan 'Software Engineer' sejajar */}
-              <span className="flex items-center flex-wrap gap-x-3 mt-1 md:mt-2">
-                as a
-                <span className="inline-grid relative justify-items-start">
-                  <span className="opacity-0 pointer-events-none col-start-1 row-start-1">Software Engineer.</span>
-                  <AnimatePresence mode="popLayout">
-                    <motion.span 
-                      key={currentRole} 
-                      initial={{ y: 30, opacity: 0 }} 
-                      animate={{ y: 0, opacity: 1 }} 
-                      exit={{ y: -30, opacity: 0 }} 
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }} 
-                      className="col-start-1 row-start-1 text-slate-700 dark:text-slate-300 whitespace-nowrap"
-                    >
-                      {roles[currentRole]}
-                    </motion.span>
-                  </AnimatePresence>
-                </span>
-              </span>
-            </motion.h1>
+          {/* Main Title - Serif Elegant Typography */}
+          <div className="overflow-hidden mb-4 py-2 select-none">
+            <h1 
+              ref={titleRef} 
+              className="opacity-0 font-serif text-5xl md:text-8xl lg:text-9xl font-extralight tracking-tight text-[#F3F3F1] leading-none"
+            >
+              HISYAM K. UMAM
+            </h1>
+          </div>
 
-            <motion.p variants={itemVariants} className="max-w-xl mt-8 text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed font-medium transition-colors">
-              Hi, saya Hisyam Khaeru Umam. Saya berkembang di titik temu antara <strong className="text-slate-900 dark:text-white">rekayasa perangkat lunak presisi</strong> dan <strong className="text-slate-900 dark:text-white">kolaborasi tim yang solid</strong>. Mengubah logika kompleks menjadi solusi fungsional.
-            </motion.p>
+          {/* Subtitle - Mono technical spacing */}
+          <div className="overflow-hidden mb-8 select-none">
+            <div 
+              ref={subtitleRef} 
+              className="opacity-0 font-mono text-[10px] sm:text-xs tracking-[0.45em] text-[#D4AF37] uppercase font-bold"
+            >
+              CRAFTING DIGITAL EXCELLENCE
+            </div>
+          </div>
 
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-4 mt-10 pointer-events-auto relative z-20">
-              <button onClick={scrollToProjects} className="relative inline-flex items-center gap-2 px-8 py-3.5 text-sm font-bold text-white transition-all rounded-full bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-500 shadow-xl hover:-translate-y-1 overflow-hidden group border border-transparent dark:border-blue-500">
-                <span className="relative z-10">View Projects</span>
-                <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
-                <div className="absolute inset-0 h-full w-full bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
-              </button>
-              <a href="/cv-hisyam.pdf" download className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-bold transition-all border border-slate-200 dark:border-slate-700 rounded-full text-slate-700 dark:text-slate-200 bg-white/50 dark:bg-slate-800/50 backdrop-blur-md hover:bg-white dark:hover:bg-slate-700 hover:shadow-lg dark:hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:-translate-y-1 group">
-                <Download className="w-4 h-4 group-hover:text-blue-500 transition-colors" /> Download CV
-              </a>
-            </motion.div>
-          </motion.div>
+          {/* Soft description text */}
+          <p 
+            ref={descRef} 
+            className="opacity-0 max-w-xl text-sm md:text-base text-[#F3F3F1]/80 leading-relaxed font-light mb-10 select-none"
+          >
+            A software engineer specializing in high-performance web systems and AI tools. 
+            Blending technical precision with functional design.
+          </p>
+
+          {/* Call-to-actions */}
+          <div 
+            ref={ctaRef} 
+            className="opacity-0 flex flex-wrap justify-center gap-4 pointer-events-auto relative z-20"
+          >
+            <button 
+              onClick={scrollToProjects} 
+              className="relative inline-flex items-center gap-2 px-8 py-3.5 text-xs font-mono tracking-wider uppercase text-black bg-[#D4AF37] hover:bg-[#D4AF37]/90 transition-all rounded-full shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:scale-105 duration-300"
+            >
+              <span>View Projects</span>
+              <ArrowRight className="w-3.5 h-3.5 animate-pulse" />
+            </button>
+            <a 
+              href="/cv-hisyam.pdf" 
+              download 
+              className="inline-flex items-center gap-2 px-8 py-3.5 text-xs font-mono tracking-wider uppercase border border-slate-700 hover:border-[#F3F3F1]/40 rounded-full text-[#F3F3F1] bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all hover:scale-105 duration-300"
+            >
+              <Download className="w-3.5 h-3.5" /> Download CV
+            </a>
+          </div>
+        </div>
+
+        {/* Cinematic Scroll Down Hint */}
+        <div 
+          ref={scrollIndicatorRef} 
+          className="opacity-0 absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 pointer-events-none select-none"
+        >
+          <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#F3F3F1]/45">Scroll Down</span>
+          <div className="w-[1px] h-10 bg-gradient-to-b from-[#D4AF37]/60 to-transparent animate-bounce" />
         </div>
       </section>
-      
-      <AboutMe />
+
+      {/* Pinned Scrollytelling About Me Section */}
+      <AboutMeDynamic />
+
+      {/* Other portfolio sections */}
       <TechStack />
       <Projects />
       <Experience />
       <Achievements />
       <Gallery />
       <Contact />
-    
     </main>
   );
 }

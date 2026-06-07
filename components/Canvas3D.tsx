@@ -1,7 +1,7 @@
 "use client";
 
 import * as THREE from 'three';
-import React, { useRef, Suspense, useState, useEffect } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Float, PresentationControls, MeshTransmissionMaterial, Text, RoundedBox, Image, Sparkles } from "@react-three/drei";
 
@@ -106,6 +106,7 @@ function HoloCard() {
       <Float speed={1.5} rotationIntensity={0} floatIntensity={0.8}>
         
         {/* Latar Belakang Foto */}
+        {/* eslint-disable-next-line jsx-a11y/alt-text */}
         <Image
           url="/profile2.png"
           transparent
